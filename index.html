@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GtxPreet - Latest Videos</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    h1 {
+      padding: 20px;
+      font-size: 2em;
+      color: #00ffe1;
+    }
+
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    iframe {
+      width: 360px;
+      height: 215px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 255, 225, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    iframe:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔥 GtxPreet Latest YouTube Videos 🔥</h1>
+  <div class="video-container" id="videos"></div>
+
+  <script>
+    const apiKey = 'YOUR_YOUTUBE_API_KEY_HERE'; // Replace with your actual API key
+    const channelId = 'UCpx4Xe7Q9pTYM6ZgWFSbpGw';
+    const maxResults = 6;
+
+    fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
+      .then(response => response.json())
+      .then(data => {
+        const videosDiv = document.getElementById('videos');
+        data.items.forEach(item => {
+          if (item.id.kind === 'youtube#video') {
+            const videoId = item.id.videoId;
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}`;
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
+            videosDiv.appendChild(iframe);
+          }
+        });
+      })
+      .catch(error => console.error('Error fetching videos:', error));
+  </script>
+
+</body>
+</html>
